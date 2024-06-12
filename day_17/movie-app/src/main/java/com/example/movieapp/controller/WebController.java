@@ -100,11 +100,22 @@ public class WebController {
         model.addAttribute("episodes", episodes);
         return "web/chi-tiet-phim";
     }
+<<<<<<< HEAD
     @GetMapping("/xem-phim/{id}/{slug}")
     public String getMovieStreamingDetailPage(@PathVariable Integer id,
                                               @PathVariable String slug,
                                               @RequestParam String tap,
                                               Model model) {
+=======
+
+    // http://localhost:8080/xem-phim/99/the-torment-of-others?tap=full
+    // http://localhost:8080/xem-phim/99/the-torment-of-others?tap=1
+    @GetMapping("/xem-phim/{id}/{slug}")
+    public String getMovieStreamingDetailsPage(@PathVariable Integer id,
+                                               @PathVariable String slug,
+                                               @RequestParam String tap,
+                                               Model model) {
+>>>>>>> f26bf26f2b3ddaf48ba9fdfef84ec05492b9ebee
         // Trả về thông tin phim
         Movie movie = webService.getMovieDetails(id, slug);
 
@@ -116,14 +127,32 @@ public class WebController {
 
         // Trả về danh sách review
         List<Review> reviews = reviewService.getReviewsByMovie(id);
+<<<<<<< HEAD
         //Lấy ra thông tin tập phim cần xem
         Episode currentEpisode=episodeService.getEpisodeByDisplayOrder(id,tap);
+=======
+
+        // Lấy ra thông tin tập phim cần xem (tap : displayOrder)
+        Episode currentEpisode = episodeService.getEpisodeByDisplayOrder(id, tap);
+>>>>>>> f26bf26f2b3ddaf48ba9fdfef84ec05492b9ebee
 
         model.addAttribute("movie", movie);
         model.addAttribute("relatedMovies", relatedMovies);
         model.addAttribute("reviews", reviews);
         model.addAttribute("episodes", episodes);
+<<<<<<< HEAD
         model.addAttribute("currentEpisode",currentEpisode);
         return "web/xem-phim";
     }
 }
+=======
+        model.addAttribute("currentEpisode", currentEpisode);
+        return "web/xem-phim";
+    }
+
+    @GetMapping("/dang-nhap")
+    public String getLoginPage() {
+        return "web/dang-nhap";
+    }
+}
+>>>>>>> f26bf26f2b3ddaf48ba9fdfef84ec05492b9ebee

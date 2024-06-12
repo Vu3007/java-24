@@ -15,8 +15,19 @@ public class EpisodeService {
     public List<Episode> getEpisodeListOfMovie(Integer movieId) {
         return episodeRepository.findByMovie_IdAndStatusOrderByDisplayOrderAsc(movieId, true);
     }
+<<<<<<< HEAD
     public Episode getEpisodeByDisplayOrder(Integer movieId,String tap){
        Integer convertTap=tap.equals("full")?1:Integer.parseInt(tap);
        return episodeRepository.findByMovie_IdAndStatusAndDisplayOrder(movieId,true,convertTap).orElse(null);
     }
 }
+=======
+
+    public Episode getEpisodeByDisplayOrder(Integer movieId, String tap) {
+        Integer covertTap = tap.equals("full") ? 1 : Integer.parseInt(tap);
+        return episodeRepository
+                .findByMovie_IdAndStatusAndDisplayOrder(movieId, true, covertTap)
+                .orElse(null);
+    }
+}
+>>>>>>> f26bf26f2b3ddaf48ba9fdfef84ec05492b9ebee

@@ -7,7 +7,10 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Getter
 @Setter
+<<<<<<< HEAD
 @Builder
+=======
+>>>>>>> f26bf26f2b3ddaf48ba9fdfef84ec05492b9ebee
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CreateReviewRequest {
     String content;

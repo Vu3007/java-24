@@ -22,7 +22,10 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>6.3.0</version>
         </dependency>
+<<<<<<< HEAD
 
+=======
+>>>>>>> f26bf26f2b3ddaf48ba9fdfef84ec05492b9ebee
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>

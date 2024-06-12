@@ -35,8 +35,10 @@ class MovieAppApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private EpisodeRepository episodeRepository;
+
     @Autowired
     private ReviewRepository reviewRepository;
     @Autowired
@@ -49,6 +51,9 @@ class MovieAppApplicationTests {
             userRepository.save(user);
         }
     }
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Test
     void save_genres() {
@@ -292,5 +297,14 @@ class MovieAppApplicationTests {
 //        movieRepository.delete(movie);
 //        movieRepository.deleteAll(moviesByIds);
 //        movieRepository.deleteAll();
+    }
+
+    @Test
+    void encode_password_user() {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            user.setPassword(passwordEncoder.encode("123"));
+            userRepository.save(user);
+        }
     }
 }
