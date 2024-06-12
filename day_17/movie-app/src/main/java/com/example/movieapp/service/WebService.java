@@ -1,7 +1,9 @@
 package com.example.movieapp.service;
 
+import com.example.movieapp.entity.Episode;
 import com.example.movieapp.entity.Movie;
 import com.example.movieapp.model.enums.MovieType;
+import com.example.movieapp.repository.EpisodeRepository;
 import com.example.movieapp.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebService {
     private final MovieRepository movieRepository;
+    private final EpisodeRepository episodeRepository;
 
     public Page<Movie> findByType(MovieType type, Boolean status, Integer page, Integer limit) {
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by("publishedAt").descending());
@@ -34,4 +37,5 @@ public class WebService {
         return movieRepository
                 .findTop6ByTypeAndStatusAndIdNotOrderByRatingDesc(movie.getType(), true, movie.getId());
     }
+
 }

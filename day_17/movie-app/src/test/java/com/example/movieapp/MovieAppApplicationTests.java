@@ -9,6 +9,7 @@ import com.github.slugify.Slugify;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,6 +39,16 @@ class MovieAppApplicationTests {
     private EpisodeRepository episodeRepository;
     @Autowired
     private ReviewRepository reviewRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Test
+    void encode_password_user(){
+        List<User> users=userRepository.findAll();
+        for (User user:users){
+            user.setPassword((bCryptPasswordEncoder).encode("123"));
+            userRepository.save(user);
+        }
+    }
 
     @Test
     void save_genres() {

@@ -1,7 +1,11 @@
 package com.example.movieapp.controller;
 
+import com.example.movieapp.entity.Episode;
 import com.example.movieapp.entity.Movie;
+import com.example.movieapp.entity.Review;
 import com.example.movieapp.model.enums.MovieType;
+import com.example.movieapp.service.EpisodeService;
+import com.example.movieapp.service.ReviewService;
 import com.example.movieapp.service.WebService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebController {
     private final WebService webService;
+    private final EpisodeService episodeService;
+    private final ReviewService reviewService;
 
     @GetMapping
     public String getHomePage(Model model) {
@@ -53,6 +59,14 @@ public class WebController {
         model.addAttribute("currentPage", page);
         return "web/phim-le";
     }
+    @GetMapping("/dang-nhap")
+    public String getLoginPage() {
+        return "web/dang-nhap";
+    }
+//    @GetMapping("/dang-ky")
+//    public String getDangKy(Model model) {
+//        return "web/dang-ky";
+//    }
 
     @GetMapping("/phim-chieu-rap")
     public String getPhimChieuRapPage(Model model,
@@ -68,11 +82,48 @@ public class WebController {
     public String getMovieDetailsPage(@PathVariable Integer id,
                                       @PathVariable String slug,
                                       Model model) {
+        // Trả về thông tin phim
         Movie movie = webService.getMovieDetails(id, slug);
+
+        // Trả về danh sách phim liên quan
         List<Movie> relatedMovies = webService.getRelatedMovies(movie);
+
+        // Trả về danh sách tập phim
+        List<Episode> episodes = episodeService.getEpisodeListOfMovie(id);
+
+        // Trả về danh sách review
+        List<Review> reviews = reviewService.getReviewsByMovie(id);
 
         model.addAttribute("movie", movie);
         model.addAttribute("relatedMovies", relatedMovies);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("episodes", episodes);
         return "web/chi-tiet-phim";
+    }
+    @GetMapping("/xem-phim/{id}/{slug}")
+    public String getMovieStreamingDetailPage(@PathVariable Integer id,
+                                              @PathVariable String slug,
+                                              @RequestParam String tap,
+                                              Model model) {
+        // Trả về thông tin phim
+        Movie movie = webService.getMovieDetails(id, slug);
+
+        // Trả về danh sách phim liên quan
+        List<Movie> relatedMovies = webService.getRelatedMovies(movie);
+
+        // Trả về danh sách tập phim
+        List<Episode> episodes = episodeService.getEpisodeListOfMovie(id);
+
+        // Trả về danh sách review
+        List<Review> reviews = reviewService.getReviewsByMovie(id);
+        //Lấy ra thông tin tập phim cần xem
+        Episode currentEpisode=episodeService.getEpisodeByDisplayOrder(id,tap);
+
+        model.addAttribute("movie", movie);
+        model.addAttribute("relatedMovies", relatedMovies);
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("episodes", episodes);
+        model.addAttribute("currentEpisode",currentEpisode);
+        return "web/xem-phim";
     }
 }
